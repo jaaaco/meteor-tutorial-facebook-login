@@ -1,22 +1,24 @@
 import { Template } from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
 
 import './main.html';
 
-Template.hello.onCreated(function helloOnCreated() {
-  // counter starts at 0
-  this.counter = new ReactiveVar(0);
+Template.login.helpers({
+    getEmail() {
+        return Meteor.user().emails && Meteor.user().emails[0].address;
+    }
 });
 
-Template.hello.helpers({
-  counter() {
-    return Template.instance().counter.get();
-  },
-});
-
-Template.hello.events({
-  'click button'(event, instance) {
-    // increment the counter when button is clicked
-    instance.counter.set(instance.counter.get() + 1);
-  },
+Template.login.events({
+    'click button.log-in'(event) {
+        event.preventDefault();
+        Meteor.loginWithFacebook({requestPermissions: ['public_profile', 'email']}, function(err){
+            if (err) {
+                console.log('Handle errors here: ', err);
+            }
+        });
+    },
+    'click button.log-out'(event) {
+        event.preventDefault();
+        Meteor.logout();
+    }
 });

@@ -1,5 +1,5 @@
 {
-  "name": "facebook-login",
+  "name": "meteor-tutorial-facebook-login",
   "private": true,
   "scripts": {
     "start": "meteor run"
